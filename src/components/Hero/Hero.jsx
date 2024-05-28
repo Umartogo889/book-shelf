@@ -7,36 +7,18 @@ import { v4 as uuidv4 } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Modal from "../Modal/Modal";
-import ModalEdit from "../Modal/ModalEdit";
 
 const Hero = ({ books, typebook }) => {
   const [LocalStr, setLocalStr] = useState(
     JSON.parse(localStorage.getItem("mybook")) || books
   );
   const [showModal, setshowModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [newbook, setnewbook] = useState("");
   const [bookpage, setbookpage] = useState("");
   const [newbooktype, setbooktype] = useState("lirik");
   const [bookimg, setbookimg] = useState("");
-  const [newName, SetnewName] = useState("");
-  const [Editpage, setEditpage] = useState("");
-  const [Editimg, setEditimg] = useState("");
 
   localStorage.setItem("mybook", JSON.stringify(LocalStr));
-  function editBook(id) {
-    SetnewName("");
-    setEditpage("");
-    setEditimg("");
-    const newState = LocalStr.map((obj) => {
-      if (obj.id === id) {
-        return { ...obj, name: newName };
-      }
-      return obj;
-    });
-
-    setLocalStr(newState);
-  }
 
   // remove book
   const removeBook = (id) => {
@@ -74,7 +56,7 @@ const Hero = ({ books, typebook }) => {
 
   return (
     <div className="Hero-container">
-      <button style={{ marginTop: "20px" }} onClick={addnewBookType}>
+      <button  className="add-btn" onClick={addnewBookType}>
         Kitob Qo'shish
       </button>
 
@@ -94,8 +76,8 @@ const Hero = ({ books, typebook }) => {
                 <p className="name">{item.name}</p>
                 <p>{item.page} bet</p>
                 <div className="icons">
-                  <div onClick={() => editBook(item.id)} className="icon">
-                    <EditIcon onClick={() => setShowEditModal(true)} />
+                  <div className="icon">
+                    <EditIcon />
                   </div>
                   <div onClick={() => removeBook(item.id)} className="icon">
                     <DeleteIcon />
@@ -113,15 +95,6 @@ const Hero = ({ books, typebook }) => {
             setbookimg={setbookimg}
             changeNewbookType={changeNewbookType}
             showModal={setshowModal}
-          />
-        )}
-        {showEditModal && (
-          <ModalEdit
-            SetnewName={SetnewName}
-            setEditpage={setEditpage}
-            setEditimg={setEditimg}
-            editBook={editBook}
-            setShowEditModal={setShowEditModal}
           />
         )}
       </div>
